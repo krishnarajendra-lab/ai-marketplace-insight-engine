@@ -1,0 +1,128 @@
+{
+  "name": "AI Marketplace Insight Engine Demo",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2f3632f8-0cca-449c-8148-a8d7ddc51f21",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5199737f-f453-419f-b51b-2cb0b8743863",
+              "name": "product_category",
+              "value": "Yoga Mats",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e1f822cc-5125-47a3-8730-7ee583eaedd4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the marketplace potential of {{ $json.product_category }}\n\nProvide:\n1. Common customer complaints\n2. Positive customer sentiment\n3. Market gaps\n4. Product improvement opportunities\n5. Pricing opportunities\n6. Competitive insights\n\nFormat the output as bullet points.",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an AI Marketplace Intelligence Analyst.\nAnalyze products and identify business opportunities, customer pain points, pricing opportunities and market gaps.\nProvide concise actionable insights."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        416,
+        0
+      ],
+      "id": "0286bd9b-d047-465f-bfa7-0ac8b00bb307",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        528,
+        160
+      ],
+      "id": "f3444bdf-466a-408d-9fa2-ff35c9b424b3",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dlXaOITPcQRhQDyu",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "2f4ea3f6-444b-478c-9cec-f28fa4dcd7e9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e37da0b5c7574ca98f2aa26fbcb30b15081038c618ffa86a6c057162577ae2ec"
+  },
+  "id": "xtmZOw5Xk7xxrD0c",
+  "tags": []
+}
